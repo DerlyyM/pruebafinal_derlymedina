@@ -1,6 +1,6 @@
 <?php
 require 'conexion.php';
-// Redirige automáticamente al login
+// al login
 header("Location: login.php");
 exit;
 
@@ -14,10 +14,10 @@ $estudiantes = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>Sistema de Notas</title>
 
-    <!-- BOOTSTRAP -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- ESTILOS PERSONALIZADOS -->
+    <!-- ESTILOS  -->
     <style>
         body {
             background: #f5f6fa;
@@ -53,7 +53,7 @@ $estudiantes = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 <body class="p-4">
 
     <div class="container">
-        <h2 class="text-center mb-5">📘 Sistema de Gestión de Notas</h2>
+        <h2 class="text-center mb-5"> Sistema de Gestión de Notas</h2>
 
         <div class="row justify-content-center">
 
@@ -61,7 +61,7 @@ $estudiantes = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             <div class="col-md-4 mb-3">
                 <a href="estudiantes.php" style="text-decoration:none">
                     <div class="card card-menu shadow p-4 text-center bg-primary text-white">
-                        <h4>👩‍🎓 Gestión de Estudiantes</h4>
+                        <h4> Gestión de Estudiantes</h4>
                         <p>Registrar, editar y consultar estudiantes</p>
                     </div>
                 </a>
@@ -71,7 +71,7 @@ $estudiantes = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             <div class="col-md-4 mb-3">
                 <a href="asignatura.php" style="text-decoration:none">
                     <div class="card card-menu shadow p-4 text-center bg-warning text-dark">
-                        <h4>📚 Asignaturas</h4>
+                        <h4>Asignaturas</h4>
                         <p>Agregar y administrar asignaturas</p>
                     </div>
                 </a>
@@ -81,7 +81,7 @@ $estudiantes = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             <div class="col-md-4 mb-3">
                 <a href="notas.php" style="text-decoration:none">
                     <div class="card card-menu shadow p-4 text-center bg-success text-white">
-                        <h4>📝 Notas</h4>
+                        <h4>Notas</h4>
                         <p>Registrar y revisar calificaciones</p>
                     </div>
                 </a>

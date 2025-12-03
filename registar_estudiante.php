@@ -1,7 +1,7 @@
 <?php
 require 'conexion.php';
 
-// Cuando se envía el formulario:
+// envio del formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombres = $_POST['nombres'];
     $apellidos = $_POST['apellidos'];

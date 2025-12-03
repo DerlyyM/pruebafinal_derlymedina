@@ -72,7 +72,7 @@ form.addEventListener('submit', function(e){
     .then(data => {
         if(data.success){
             mensaje.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    ✅ Nota registrada correctamente.
+                                     Nota registrada correctamente.
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>`;
             form.reset();

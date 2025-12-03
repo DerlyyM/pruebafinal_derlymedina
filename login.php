@@ -2,7 +2,7 @@
 require 'conexion.php';
 session_start();
 
-// Si ya está logueado, ir al panel
+// si ya esta logueado
 if(isset($_SESSION['user_id'])){
     header("Location: admin.php");
     exit;

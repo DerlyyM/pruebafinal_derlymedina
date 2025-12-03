@@ -15,7 +15,7 @@ if(!isset($_SESSION['user_id'])){
     <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- ESTILOS PERSONALIZADOS -->
+    <!-- ESTILOS -->
     <style>
         body {
             background: #f5f6fa;
@@ -31,7 +31,7 @@ if(!isset($_SESSION['user_id'])){
             transition: transform 0.3s, box-shadow 0.3s, opacity 0.6s;
             cursor: pointer;
             border-radius: 12px;
-            opacity: 0; /* Para animación */
+            opacity: 0; /* animación */
         }
 
         .card-menu:hover {
@@ -102,7 +102,7 @@ if(!isset($_SESSION['user_id'])){
         cards.forEach((card, index) => {
             setTimeout(() => {
                 card.style.opacity = 1;
-            }, 200 * index); // efecto secuencial
+            }, 200 * index); // efecto secuncia
         });
     });
 </script>
