@@ -29,13 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES (?, ?, ?, ?, ?, NOW())";
 
     $insert = $pdo->prepare($sql);
-
-    try {
-        $insert->execute([$nombre, $documento, $email, $password, $rol]);
-    } catch (PDOException $e) {
-        echo "<script>alert('Error al registrar: ".$e->getMessage()."');</script>";
-        exit;
-    }
+    $insert->execute([$nombre, $documento, $email, $password, $rol]);
 
     echo "<script>alert('Registro exitoso como $rol');window.location='login.php';</script>";
     exit;
@@ -45,16 +39,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <title>Registro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet'>
 </head>
 
 <body class="p-4">
-<div class="container" style="max-width: 400px;">
-    <h2 class="mb-4 text-center">Registro</h2>
+<div class="container" style="max-width: 430px;">
+    <h2 class="text-center mb-4">Registro de Usuario</h2>
 
     <form method="POST" class="border p-3 rounded bg-light">
 
-        <label>Registrarse como:</label>
+        <label class="fw-bold">Registrarse como:</label>
         <select name="rol" class="form-select mb-3" required>
             <option value="estudiante">Estudiante</option>
             <option value="admin">Administrador</option>
@@ -77,6 +71,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <p class="mt-3 text-center">¿Ya tienes cuenta? <a href="login.php">Iniciar sesión</a></p>
 </div>
-
 </body>
 </html>

@@ -2,13 +2,14 @@
 require 'conexion.php';
 session_start();
 
-// Si ya inició sesión, redirigir según su rol
-if (isset($_SESSION['user_id'])) {
-    if ($_SESSION['user_rol'] == "admin") {
-        header("Location: admin.php");
+// Si ya inició sesión, enviarlo a su panel
+if (isset($_SESSION['usuario_id'])) {
+
+    if ($_SESSION['rol'] == "admin") {
+        header("Location: admin/index.php");
         exit;
     } else {
-        header("Location: estudiante.php");
+        header("Location: estudiante/index.php");
         exit;
     }
 }
@@ -18,25 +19,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Buscar el usuario en la BD
+    // Buscar usuario por email
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Validar contraseña
     if ($user && password_verify($password, $user['password'])) {
 
-        // Guardar datos en sesión
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_name'] = $user['nombre'];
-        $_SESSION['user_rol'] = $user['rol'];  // admin / estudiante
+        // Guardar datos en sesión con claves correctas
+        $_SESSION['usuario_id'] = $user['id'];
+        $_SESSION['nombre'] = $user['nombre'];
+        $_SESSION['rol'] = $user['rol'];
 
         // Redirigir según el rol
         if ($user['rol'] == "admin") {
-            header("Location: admin.php");
+            header("Location: admin/index.php");
             exit;
         } else {
-            header("Location: estudiante.php");
+            header("Location: estudiante/index.php");
             exit;
         }
 
@@ -71,3 +71,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 </body>
 </html>
+
