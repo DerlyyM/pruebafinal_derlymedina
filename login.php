@@ -8,20 +8,36 @@ if(isset($_SESSION['user_id'])){
     exit;
 }
 
+   if ($_SESSION['user_rol'] == "estudiante") {
+        header("Location: estudiante.php");
+        exit;
+    }
+
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $email = $_POST['email'];
     $password = $_POST['password'];
+
+    // buscar el usuario
 
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    //validacion de las credenciales
+
+     if ($user && password_verify($password, $user['password'])) {
+
+
     if($user && password_verify($password, $user['password'])){
         // Guardar sesión
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['nombre'];
-        $_SESSION['user_rol'] = $user['rol']; // Si usas tabla de roles, ajusta
-        header("Location: admin.php");
+        $_SESSION['user_rol'] = $user['rol']; 
+
+    }
+
+
+    
         exit;
     } else {
         $error = "Email o contraseña incorrectos";
