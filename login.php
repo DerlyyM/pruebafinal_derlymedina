@@ -2,50 +2,49 @@
 require 'conexion.php';
 session_start();
 
-// si ya esta logueado
-if(isset($_SESSION['user_id'])){
-    header("Location: admin.php");
-    exit;
-}
-
-   if ($_SESSION['user_rol'] == "estudiante") {
+// Si ya inició sesión, redirigir según su rol
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['user_rol'] == "admin") {
+        header("Location: admin.php");
+        exit;
+    } else {
         header("Location: estudiante.php");
         exit;
     }
+}
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // buscar el usuario
-
+    // Buscar el usuario en la BD
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    //validacion de las credenciales
+    // Validar contraseña
+    if ($user && password_verify($password, $user['password'])) {
 
-     if ($user && password_verify($password, $user['password'])) {
-
-
-    if($user && password_verify($password, $user['password'])){
-        // Guardar sesión
+        // Guardar datos en sesión
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['nombre'];
-        $_SESSION['user_rol'] = $user['rol']; 
+        $_SESSION['user_rol'] = $user['rol'];  // admin / estudiante
 
-    }
+        // Redirigir según el rol
+        if ($user['rol'] == "admin") {
+            header("Location: admin.php");
+            exit;
+        } else {
+            header("Location: estudiante.php");
+            exit;
+        }
 
-
-    
-        exit;
     } else {
         $error = "Email o contraseña incorrectos";
     }
 }
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,6 +55,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 <div class="container" style="max-width: 400px;">
     <h2 class="mb-4 text-center"> Iniciar Sesión</h2>
+
     <?php if(isset($error)): ?>
         <div class="alert alert-danger"><?= $error ?></div>
     <?php endif; ?>

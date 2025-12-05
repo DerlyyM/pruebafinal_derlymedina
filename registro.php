@@ -3,29 +3,43 @@ require 'conexion.php';
 session_start();
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $nombre = $_POST['nombre'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+   
+    $rol = $_POST['rol'];
 
-    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
-    $stmt->execute([$email]);
+    // SI ES ESTUDINATE
 
-    if($stmt->rowCount() > 0){
-        $error = "El email ya está registrado";
+     if ($rol == "estudiante") {
+
+        $documento = $_POST['documento'];
+        $nombre = $_POST['nombre'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        $stmt = $pdo->prepare("INSERT INTO usuarios (documento, nombre, password, rol) VALUES (?, ?, ?, 'estudiante')");
+        $stmt->execute([$documento, $nombre, $password]);
+
+        $mensaje = "Registro de estudiante exitoso";
+
     } else {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO usuarios (nombre,email,password,rol) VALUES (?,?,?,?)");
-        if($stmt->execute([$nombre,$email,$hash,'admin'])){
-            $_SESSION['user_id'] = $pdo->lastInsertId();
-            $_SESSION['user_name'] = $nombre;
-            $_SESSION['user_rol'] = 'admin';
-            echo "<script>alert('Usuario registrado correctamente'); window.location='admin.php';</script>";
-            exit;
-        } else {
-            $error = "Error al registrar usuario";
-        }
+
+     // ADMINSTRADOR
+
+      $email = $_POST['email'];
+        $nombre = $_POST['nombre'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        $stmt = $pdo->prepare("INSERT INTO usuarios (email, nombre, password, rol) VALUES (?, ?, ?, 'admin')");
+        $stmt->execute([$email, $nombre, $password]);
+
+        $mensaje = "Registro de administrador exitoso";
     }
+
+    
+
+    header("Location: login.php");
+
+    exit;
 }
+
 ?>
 
 <!DOCTYPE html>
